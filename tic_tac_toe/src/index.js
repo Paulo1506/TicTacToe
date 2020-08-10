@@ -20,29 +20,40 @@ class Board extends React.Component {
             onClick={() => this.props.onClick(i)}      />
         );
       }
+
+      generateRow = (index, max) => {
+        let rows = [];
+    
+        for (index; index < max; index++) {
+          rows.push(this.renderSquare(index));
+        }
+        return rows;
+      };
+    
+      generateBoard (columns, rows) {
+        let board = [];
+      
+        for (let i = 0; i < columns * rows; i++) {
+          //Autorise uniquement les multiples du nombre de colonne
+          if (i % columns === 0) {
+            board.push(
+              <div className="board-row" key={i}>
+                {this.generateRow(i, i + columns)}
+              </div>
+            );
+          }
+        }
+        return board;
+      };
   
     render() {
       return (
         <div>
-          <div className="board-row">
-            {this.renderSquare(0)}
-            {this.renderSquare(1)}
-            {this.renderSquare(2)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(3)}
-            {this.renderSquare(4)}
-            {this.renderSquare(5)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(6)}
-            {this.renderSquare(7)}
-            {this.renderSquare(8)}
-          </div>
+          <div>{this.generateBoard(3, 3)}</div>
         </div>
       );
     }
-  }
+}
   
 class Game extends React.Component {
     constructor(props){
